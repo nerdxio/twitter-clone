@@ -22,12 +22,12 @@ public class Application {
     CommandLineRunner run(RoleRepository roleRepository, UserService userService) {
         return args -> {
             roleRepository.save(new Role(1, "USER"));
-            var user = new ApplicationUser();
-            user.setUserId(1);
-            user.setFirstName("Hassan");
-            user.setLastName("Refaat");
-
-            userService.registerUser(user);
+//            var user = new ApplicationUser();
+//            user.setUserId(1);
+//            user.setFirstName("Hassan");
+//            user.setLastName("Refaat");
+//
+//            userService.registerUser(user);
         };
     }
 }
