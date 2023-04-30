@@ -8,13 +8,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Builder
@@ -50,4 +50,7 @@ public class ApplicationUser {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> authorities;
 
+    public ApplicationUser() {
+        this.authorities= new HashSet<>();
+    }
 }

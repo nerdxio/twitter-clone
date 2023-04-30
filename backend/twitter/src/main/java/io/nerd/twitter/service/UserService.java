@@ -21,7 +21,8 @@ public class UserService {
 
     public ApplicationUser registerUser(ApplicationUser user) {
         Set<Role> roles = user.getAuthorities();
-        var responseRole = roleRepository.findByAuthority("USER").get();
+        var responseRole = roleRepository.findByAuthority("USER")
+                .orElseThrow(() -> new RuntimeException("USER role not found"));
         roles.add(responseRole);
         user.setAuthorities(roles);
         return userRepository.save(user);
