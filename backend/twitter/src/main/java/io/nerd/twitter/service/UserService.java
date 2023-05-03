@@ -5,6 +5,7 @@
 package io.nerd.twitter.service;
 
 import io.nerd.twitter.exception.EmailAlreadyTakenException;
+import io.nerd.twitter.exception.UserDoesNotExistException;
 import io.nerd.twitter.models.ApplicationUser;
 import io.nerd.twitter.models.RegistrationObject;
 import io.nerd.twitter.models.Role;
@@ -20,6 +21,21 @@ import java.util.Set;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+
+    public ApplicationUser getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(UserDoesNotExistException::new);
+    }
+
+    public ApplicationUser updateUser(ApplicationUser user) {
+        // todo better exception handling
+        try {
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new EmailAlreadyTakenException();
+        }
+    }
+
 
     public ApplicationUser registerUser(RegistrationObject ro) {
         var user = new ApplicationUser();
@@ -56,5 +72,6 @@ public class UserService {
         }
         return generateUsername;
     }
+
 
 }

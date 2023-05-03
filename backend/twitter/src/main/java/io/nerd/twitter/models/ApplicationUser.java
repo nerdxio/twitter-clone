@@ -5,7 +5,10 @@
 package io.nerd.twitter.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -16,7 +19,6 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
 @Builder
 public class ApplicationUser {
     @Id

@@ -5,14 +5,16 @@
 package io.nerd.twitter.controllers;
 
 import io.nerd.twitter.exception.EmailAlreadyTakenException;
+import io.nerd.twitter.exception.UserDoesNotExistException;
 import io.nerd.twitter.models.ApplicationUser;
 import io.nerd.twitter.models.RegistrationObject;
 import io.nerd.twitter.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedHashMap;
 
 @RestController
 @RequestMapping("/auth")
@@ -27,5 +29,20 @@ public class AuthenticationControllers {
     @PostMapping("/register")
     public ApplicationUser registerUser(@RequestBody RegistrationObject ro) {
         return userService.registerUser(ro);
+    }
+
+    @ExceptionHandler({UserDoesNotExistException.class})
+    public ResponseEntity<String> handleUserDoesNotExistException() {
+        return new ResponseEntity<>("The User does not exist", HttpStatus.NOT_FOUND);
+    }
+    @PutMapping("/update/phone")
+    public ApplicationUser updatePhoneNumber(@RequestBody LinkedHashMap<String,String> body){
+        var username = body.get("username");
+        var phone = body.get("phone");
+
+        var user  = userService.getUserByUsername(username);
+
+        user.setPhone(phone);
+        return userService.updateUser(user);
     }
 }
