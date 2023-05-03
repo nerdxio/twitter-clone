@@ -4,6 +4,7 @@
  */
 package io.nerd.twitter.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +47,10 @@ public class ApplicationUser {
     @JoinColumn
     private String password;
 
+    private Boolean enabled;
+
+    @JsonIgnore
+    private Long verification;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles_injunction",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -54,5 +59,6 @@ public class ApplicationUser {
 
     public ApplicationUser() {
         this.authorities= new HashSet<>();
+        this.enabled=false;
     }
 }

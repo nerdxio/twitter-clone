@@ -53,12 +53,19 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("USER role not found"));
         roles.add(responseRole);
         user.setAuthorities(roles);
-        try{
+        try {
             return userRepository.save(user);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new EmailAlreadyTakenException();
         }
 
+    }
+
+    public void generateEmailVerification(String username) {
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(UserDoesNotExistException::new);
+        user.setVerification(generateVerificationNumber());
+        userRepository.save(user);
     }
 
     private String generateUsername(String name) {
@@ -73,5 +80,7 @@ public class UserService {
         return generateUsername;
     }
 
-
+    private long generateVerificationNumber(){
+        return (long) (Math.random() * 100_000_000);
+    }
 }
