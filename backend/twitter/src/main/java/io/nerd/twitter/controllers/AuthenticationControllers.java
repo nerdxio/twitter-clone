@@ -5,6 +5,7 @@
 package io.nerd.twitter.controllers;
 
 import io.nerd.twitter.exception.EmailAlreadyTakenException;
+import io.nerd.twitter.exception.EmailFailedToSendException;
 import io.nerd.twitter.exception.UserDoesNotExistException;
 import io.nerd.twitter.models.ApplicationUser;
 import io.nerd.twitter.models.RegistrationObject;
@@ -46,9 +47,14 @@ public class AuthenticationControllers {
         return userService.updateUser(user);
     }
 
+    @ExceptionHandler({EmailFailedToSendException.class})
+    public ResponseEntity<String> handleEmailFailedToSendException() {
+        return new ResponseEntity<>("The Email failed to send", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     @PostMapping("/email/code")
     public ResponseEntity<String>createVerificationCode(@RequestBody LinkedHashMap<String,String> body){
         userService.generateEmailVerification(body.get("username"));
         return new ResponseEntity<>("Verification code sent to your email",HttpStatus.OK);
     }
+
 }

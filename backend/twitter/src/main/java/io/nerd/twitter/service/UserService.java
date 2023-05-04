@@ -5,6 +5,7 @@
 package io.nerd.twitter.service;
 
 import io.nerd.twitter.exception.EmailAlreadyTakenException;
+import io.nerd.twitter.exception.EmailFailedToSendException;
 import io.nerd.twitter.exception.UserDoesNotExistException;
 import io.nerd.twitter.models.ApplicationUser;
 import io.nerd.twitter.models.RegistrationObject;
@@ -21,7 +22,7 @@ import java.util.Set;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-
+    private final MailService mailService;
     public ApplicationUser getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(UserDoesNotExistException::new);
@@ -65,6 +66,12 @@ public class UserService {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(UserDoesNotExistException::new);
         user.setVerification(generateVerificationNumber());
+        try {
+            mailService.sendEmail(user.getEmail(), "Your Verification Code", "Verification Code is "+ user.getVerification().toString());
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new EmailFailedToSendException();
+        }
         userRepository.save(user);
     }
 
