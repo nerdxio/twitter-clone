@@ -6,6 +6,7 @@ package io.nerd.twitter.service;
 
 import io.nerd.twitter.exception.EmailAlreadyTakenException;
 import io.nerd.twitter.exception.EmailFailedToSendException;
+import io.nerd.twitter.exception.IncorrectVerificationCodeException;
 import io.nerd.twitter.exception.UserDoesNotExistException;
 import io.nerd.twitter.models.ApplicationUser;
 import io.nerd.twitter.models.RegistrationObject;
@@ -13,6 +14,7 @@ import io.nerd.twitter.models.Role;
 import io.nerd.twitter.repository.RoleRepository;
 import io.nerd.twitter.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -23,6 +25,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final MailService mailService;
+    private final PasswordEncoder passwordEncoder;
+
     public ApplicationUser getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(UserDoesNotExistException::new);
@@ -67,12 +71,32 @@ public class UserService {
                 .orElseThrow(UserDoesNotExistException::new);
         user.setVerification(generateVerificationNumber());
         try {
-            mailService.sendEmail(user.getEmail(), "Your Verification Code", "Verification Code is "+ user.getVerification().toString());
+            mailService.sendEmail(user.getEmail(), "Your Verification Code", "Verification Code is " + user.getVerification().toString());
             userRepository.save(user);
         } catch (Exception e) {
             throw new EmailFailedToSendException();
         }
         userRepository.save(user);
+    }
+
+    public ApplicationUser verifyEmail(String username, Long code) {
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(UserDoesNotExistException::new);
+        if (code.equals(user.getVerification())) {
+            user.setEnabled(true);
+            user.setVerification(null);
+            return userRepository.save(user);
+        } else {
+            throw new IncorrectVerificationCodeException();
+
+        }
+    }
+
+    public ApplicationUser setPassword(String username, String password) {
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(UserDoesNotExistException::new);
+        user.setPassword(passwordEncoder.encode(password));
+        return userRepository.save(user);
     }
 
     private String generateUsername(String name) {
@@ -87,7 +111,9 @@ public class UserService {
         return generateUsername;
     }
 
-    private long generateVerificationNumber(){
+    private long generateVerificationNumber() {
         return (long) (Math.random() * 100_000_000);
     }
+
+
 }

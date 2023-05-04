@@ -44,7 +44,7 @@ public class ApplicationUser {
     @Column(unique = true)
     private String username;
 
-    @JoinColumn
+    @JsonIgnore
     private String password;
 
     private Boolean enabled;
