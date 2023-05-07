@@ -1,0 +1,36 @@
+
+
+* {
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    margin: 0;
+    padding: 0%;
+    height: 100%;
+    width: 100%;
+}
+
+.bg-color{
+    background-color: #FEFCFF;
+}
+
+.bg-blue{
+   background-color: #1d9bf0;
+}
+.color-blue{
+    color: #1d9bf0;;
+}
+.bg-red{
+    background-color: red;
+}
+.color-red{
+    color: red;
+}
+
+.bg-gray{
+    background-color: #536471;
+}
+.color-gray{
+    color: #536471;
+}
