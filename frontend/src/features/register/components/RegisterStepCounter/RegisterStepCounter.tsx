@@ -1,16 +1,17 @@
 import React from 'react'
-import { displayIcon } from '../../utils/RegisterStepUtils'
+import { displayIcon, iconClass } from '../../utils/RegisterStepUtils'
 import './RegisterStepCounter.css'
 
 
 interface RegisterStepProps {
-    step: number
+    step: number;
+    changeStep():void;
 }
 
-export const RegisterStepCounter: React.FC<RegisterStepProps> = ({ step }) => {
+export const RegisterStepCounter: React.FC<RegisterStepProps> = ({ step, changeStep }) => {
     return (
         <div className='reg-step-counter-container'>
-            <div className='reg-step-counter-btn'>
+            <div className={iconClass(step)} onClick={changeStep}>
                 {displayIcon(step)}
 
             </div>

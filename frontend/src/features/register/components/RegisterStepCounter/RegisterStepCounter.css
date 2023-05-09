@@ -31,3 +31,9 @@
     font-weight: 500;
     font-size: 20px;
 }
+
+.reg-step-counter-btn-disable{
+   height: 40px;
+   width: 40px;
+   margin-right: 40px;
+}
