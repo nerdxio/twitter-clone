@@ -5,8 +5,8 @@ Twitter Clone for Twitter backend and frontend functionality using spring and re
 * This project is a work in progress.
 
 ## Built With
-* [Java 17](https://www.oracle.com/java/technologies/downloads/#java17)
-* [TypeScript](https://www.typescriptlang.org/)
+* [Java 17](https://www.oracle.com/java/technologies/downloads/#java17) - The programming language used for backend
+* [TypeScript](https://www.typescriptlang.org/) - The programming language used for frontend
 * [Spring Boot](https://spring.io/projects/spring-boot) - The web framework used
 * [React](https://reactjs.org/) - The frontend framework used
 * [PostgreSQL](https://www.postgresql.org/) - The database used
