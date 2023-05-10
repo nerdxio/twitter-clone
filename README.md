@@ -17,7 +17,7 @@ Twitter Clone for Twitter backend and frontend functionality using spring and re
    git clone https://github.com/hassanrefaat9/twitter-clone.git
     ```
 2. database setup
-   ```sh
+   ```sql
    create database twitter;
    ```
 3. setup gmail oauth2 to login and send emails
@@ -25,7 +25,7 @@ Twitter Clone for Twitter backend and frontend functionality using spring and re
    https://developers.google.com/identity/protocols/oauth2
    ```
 4. setup application.properties
-   ```sh
+   ```yml
    spring.datasource.url=jdbc:postgresql://localhost:5432/twitter
    spring.datasource.username= your username
    spring.datasource.password= your password
