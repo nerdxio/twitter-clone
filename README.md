@@ -24,6 +24,17 @@ Twitter Clone for Twitter backend and frontend functionality using spring and re
    ```sh
    https://developers.google.com/identity/protocols/oauth2
    ```
+4. setup application.properties
+   ```sh
+   spring.datasource.url=jdbc:postgresql://localhost:5432/twitter
+   spring.datasource.username= your username
+   spring.datasource.password= your password
+   spring.jpa.hibernate.ddl-auto=update
+   spring.jpa.show-sql=true
+   spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+   spring.jpa.properties.hibernate.format_sql=true
+   server.error.include-message=always
+   ```
 
 ## Installation for frontend
 
